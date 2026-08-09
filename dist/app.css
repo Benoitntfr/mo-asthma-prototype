@@ -16,3 +16,22 @@
   .island{display:none !important;}
   .caption{display:none !important;}
 }
+
+.chat, .body{ scroll-behavior:auto; }
+
+/* ---- Ajustements mobile réel ---- */
+@media (max-width: 600px){
+  /* le viewport gère déjà la barre système du téléphone :
+     on masque la barre de statut DESSINÉE pour éviter le doublon */
+  .status{ display:none !important; }
+
+  /* respit sous l'encoche et au-dessus de la barre home iOS */
+  .screen{
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* pas de rebond ni de débordement latéral */
+  html,body{ overflow-x:hidden; overscroll-behavior-y:none; }
+}
+
