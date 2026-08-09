@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cas 6b — Compte rendu de suivi · Mo</title>
+<style>
+  :root{
+    --peach-top:#FCEBDD;--ink:#1B1A2E;--grey:#8E8CA0;--purple:#5A4FE4;
+    --mo-border:#EEECF4;--shadow:0 6px 22px rgba(40,30,80,.07);
+    --clay:#C8623F;--care:#3D8BD4;--green:#34B36B;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;}
+  a{text-decoration:none;color:inherit;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,sans-serif;
+    background:radial-gradient(120% 100% at 50% 0%,#F1EAF4 0%,#E4DEEE 60%,#DDD7E9 100%);
+    min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 16px;}
+  .wrap{display:flex;flex-direction:column;align-items:center;gap:18px;}
+  .caption{font-size:13px;color:#6a6580;max-width:370px;text-align:center;line-height:1.5;}
+
+  .phone{width:390px;height:840px;border-radius:46px;background:#0E0D14;padding:11px;
+    box-shadow:0 40px 80px rgba(30,20,60,.28),0 8px 20px rgba(30,20,60,.18);position:relative;}
+  .screen{width:100%;height:100%;border-radius:36px;overflow:hidden;background:#FBFAFC;
+    position:relative;display:flex;flex-direction:column;}
+  .island{position:absolute;top:12px;left:50%;transform:translateX(-50%);
+    width:118px;height:33px;background:#0E0D14;border-radius:20px;z-index:20;}
+
+  .status{height:52px;flex:0 0 52px;display:flex;align-items:flex-end;justify-content:space-between;
+    padding:0 26px 6px;background:var(--peach-top);font-size:14px;font-weight:600;color:var(--ink);z-index:10;}
+  .status .right{display:flex;align-items:center;gap:6px;}
+
+  .header{background:linear-gradient(180deg,var(--peach-top) 0%,#FDF3EC 100%);padding:4px 16px 12px;
+    display:flex;align-items:center;gap:11px;}
+  .chev{width:26px;height:26px;display:flex;align-items:center;justify-content:center;color:var(--ink);flex:0 0 auto;}
+  .h-title{font-size:15.5px;font-weight:700;color:var(--ink);letter-spacing:-.3px;line-height:1.15;}
+  .h-title span{display:block;font-size:11px;font-weight:500;color:var(--grey);}
+  .edit{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:12px;font-weight:650;
+    color:var(--purple);background:#F1EFFB;padding:6px 11px;border-radius:12px;flex:0 0 auto;}
+
+  .body{flex:1 1 auto;overflow-y:auto;background:#FBFAFC;padding:0 14px 12px;}
+  .body::-webkit-scrollbar{width:0;}
+
+  .doc{background:#fff;border:1px solid var(--mo-border);border-radius:16px;margin-top:13px;
+    box-shadow:var(--shadow);overflow:hidden;}
+  .doctop{padding:16px 16px 14px;border-bottom:1px solid #F2F0F6;background:linear-gradient(180deg,#FCFBFE,#fff);}
+  .doctop h1{font-size:15px;color:var(--ink);letter-spacing:-.2px;line-height:1.3;}
+  .doctop .meta{font-size:11.5px;color:var(--grey);margin-top:7px;line-height:1.5;font-style:italic;}
+  .doctop .period{font-size:12px;color:#3a3850;font-weight:650;margin-top:8px;
+    background:#F4F2F8;padding:6px 10px;border-radius:9px;display:inline-block;}
+
+  .sec{padding:14px 16px;border-bottom:1px solid #F4F2F8;}
+  .sec:last-child{border-bottom:none;}
+  .sh{display:flex;align-items:center;gap:8px;margin-bottom:9px;}
+  .sh .n{width:20px;height:20px;border-radius:6px;background:var(--purple);color:#fff;font-size:11px;
+    font-weight:750;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+  .sh .tt{font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.1px;}
+  .sh .tt em{font-style:normal;font-weight:500;color:var(--grey);font-size:11px;}
+
+  .kv{font-size:12.5px;color:#33314a;line-height:1.55;}
+  .kv .l{font-weight:650;color:var(--ink);}
+  .kv p{margin-bottom:5px;}
+  .kv p:last-child{margin-bottom:0;}
+  .note{font-size:11px;color:var(--grey);font-style:italic;margin-top:8px;line-height:1.4;}
+
+  /* fichiers */
+  .file{display:flex;align-items:center;gap:10px;padding:9px 11px;border:1px solid var(--mo-border);
+    border-radius:11px;margin-bottom:7px;background:#FCFBFE;}
+  .file:last-child{margin-bottom:0;}
+  .file .fi{width:28px;height:34px;flex:0 0 auto;}
+  .file .ft{flex:1 1 auto;min-width:0;}
+  .file .ft b{font-size:12.5px;color:var(--ink);font-weight:600;display:block;line-height:1.25;}
+  .file .ft span{font-size:11px;color:var(--grey);}
+  .file .open{font-size:11px;font-weight:700;color:var(--purple);white-space:nowrap;display:flex;align-items:center;gap:3px;}
+
+  /* chronologie */
+  .tl{position:relative;padding-left:4px;}
+  .ti{display:flex;gap:10px;padding-bottom:9px;position:relative;}
+  .ti:last-child{padding-bottom:0;}
+  .ti .m{font-size:11.5px;font-weight:750;color:var(--purple);flex:0 0 62px;padding-top:1px;}
+  .ti .e{font-size:12.5px;color:#33314a;line-height:1.45;flex:1 1 auto;}
+
+  /* verbatims */
+  .quote{font-size:12.5px;color:#33314a;font-style:italic;line-height:1.5;padding:8px 12px;
+    border-left:3px solid #E2DEF6;background:#FAF9FE;border-radius:0 8px 8px 0;margin-bottom:7px;}
+  .quote:last-child{margin-bottom:0;}
+
+  /* questions */
+  .q{display:flex;gap:9px;font-size:12.5px;color:#2c2a40;line-height:1.45;margin-bottom:8px;}
+  .q:last-child{margin-bottom:0;}
+  .q .qm{color:var(--purple);font-weight:800;flex:0 0 auto;}
+
+  .send{margin:14px 0 4px;background:var(--purple);color:#fff;font-size:14px;font-weight:700;
+    padding:14px;border-radius:16px;text-align:center;box-shadow:0 12px 26px rgba(90,79,228,.30);
+    display:flex;align-items:center;justify-content:center;gap:9px;}
+  .subact{display:flex;gap:9px;margin-top:9px;}
+  .subact div{flex:1;text-align:center;font-size:12.5px;font-weight:650;color:#5b5870;
+    background:#fff;border:1px solid var(--mo-border);border-radius:13px;padding:11px;
+    display:flex;align-items:center;justify-content:center;gap:6px;}
+
+  .homebar{height:20px;flex:0 0 20px;display:flex;align-items:center;justify-content:center;background:#FBFAFC;}
+  .homebar i{width:134px;height:5px;border-radius:3px;background:#1B1A2E;opacity:.85;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="phone">
+    <div class="island"></div>
+    <div class="screen">
+
+      <div class="status">
+        <span>9:41</span>
+        <span class="right">
+          <svg width="18" height="12" viewBox="0 0 18 12"><g fill="#1B1A2E"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="4" y="5" width="3" height="7" rx="1"/><rect x="8" y="2.5" width="3" height="9.5" rx="1"/><rect x="12" y="0" width="3" height="12" rx="1"/></g></svg>
+          <svg width="17" height="12" viewBox="0 0 17 12"><path d="M8.5 2.2c2.3 0 4.4.9 6 2.4l1.2-1.3A11 11 0 0 0 8.5.3 11 11 0 0 0 .8 3.3L2 4.6A8.4 8.4 0 0 1 8.5 2.2Z" fill="#1B1A2E"/><path d="M8.5 5.7c1.4 0 2.6.5 3.5 1.4l1.2-1.3a7 7 0 0 0-9.4 0l1.2 1.3A5 5 0 0 1 8.5 5.7Z" fill="#1B1A2E"/><path d="M8.5 9c.7 0 1.3.3 1.8.8L8.5 11.6 6.7 9.8c.5-.5 1.1-.8 1.8-.8Z" fill="#1B1A2E"/></svg>
+          <svg width="26" height="13" viewBox="0 0 26 13"><rect x="1" y="1" width="21" height="11" rx="3.2" stroke="#1B1A2E" stroke-opacity=".4" stroke-width="1" fill="none"/><rect x="2.6" y="2.6" width="17" height="7.8" rx="2" fill="#1B1A2E"/><rect x="23" y="4" width="1.8" height="5" rx=".9" fill="#1B1A2E" fill-opacity=".4"/></svg>
+        </span>
+      </div>
+
+      <div class="header">
+        <a href="Sommaire_prototype.html" class="chev"><svg width="10" height="17" viewBox="0 0 11 19"><path d="M9.5 1.5 2 9.5l7.5 8" stroke="#1B1A2E" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="h-title">Compte rendu - rdv pneumologue 14 mai 2026<span>préparé par Mo</span></div>
+        <div class="edit"><svg width="12" height="12" viewBox="0 0 14 14"><path d="M2 10.5 9.2 3.3a1.4 1.4 0 0 1 2 2L4 12.5l-2.6.5.6-2.5Z" stroke="#5A4FE4" stroke-width="1.2" fill="none" stroke-linejoin="round"/></svg>Modifier</div>
+      </div>
+
+      <div class="body">
+        <div class="doc">
+
+          <div class="doctop">
+            <h1>Compte rendu de suivi</h1>
+            <div class="meta">Généré par Mo à partir de ton dossier. Faits et données bruts, modifiable avant envoi.</div>
+            <div class="period">Période couverte: depuis le rdv du 9 décembre 2025 (5 mois)</div>
+          </div>
+
+          <!-- 1 -->
+          <div class="sec">
+            <div class="sh"><span class="n">1</span><span class="tt">Identité et traitements</span></div>
+            <div class="kv">
+              <p><span class="l">Patient: </span>John D. 34 ans. Asthme sévère, phénotype à marqueurs type 2 bas/fluctuants.</p>
+              <p><span class="l">Fond: </span>Symbicort (ICS/LABA), matin et soir, dose élevée.</p>
+              <p><span class="l">Secours: </span>Ventoline (salbutamol).</p> 
+              <p><span class="l">Biothérapies: </span>aucune en cours.</p> 
+              <p><span class="l">Historique: </span>mépolizumab (avril→juillet, arrêté), dupilumab (septembre→janvier, arrêté), les deux pour réponse insuffisante.</p>
+              <p><span class="l">Comorbidités: </span>rhinite allergique.</p>
+              <p><span class="l">Pneumologue: </span>Dr Blanc.</p>
+            </div>
+          </div>
+
+          <!-- 2 -->
+          <div class="sec">
+            <div class="sh"><span class="n">2</span><span class="tt">Examens et analyses <em></span></div>
+            <div class="file">
+              <svg class="fi" viewBox="0 0 30 36"><rect x="1" y="1" width="28" height="34" rx="4" fill="#FBEDE7" stroke="#E7C3B4"/><path d="M20 1l9 9h-7a2 2 0 0 1-2-2V1Z" fill="#F3D6C9"/><text x="14" y="24" font-size="7" font-weight="700" fill="#C8623F" text-anchor="middle" font-family="sans-serif">PDF</text></svg>
+              <div class="ft"><b>Bilan sanguin (éosinophiles, IgE)</b><span>28 avril</span></div>
+              <div class="open">ouvrir <svg width="9" height="9" viewBox="0 0 12 12"><path d="M3 9 9 3M4 3h5v5" stroke="#5A4FE4" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            </div>
+            <div class="file">
+              <svg class="fi" viewBox="0 0 30 36"><rect x="1" y="1" width="28" height="34" rx="4" fill="#FBEDE7" stroke="#E7C3B4"/><path d="M20 1l9 9h-7a2 2 0 0 1-2-2V1Z" fill="#F3D6C9"/><text x="14" y="24" font-size="7" font-weight="700" fill="#C8623F" text-anchor="middle" font-family="sans-serif">PDF</text></svg>
+              <div class="ft"><b>Spirométrie</b><span>3 mars</span></div>
+              <div class="open">ouvrir <svg width="9" height="9" viewBox="0 0 12 12"><path d="M3 9 9 3M4 3h5v5" stroke="#5A4FE4" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            </div>
+            <div class="file">
+              <svg class="fi" viewBox="0 0 30 36"><rect x="1" y="1" width="28" height="34" rx="4" fill="#FBEDE7" stroke="#E7C3B4"/><path d="M20 1l9 9h-7a2 2 0 0 1-2-2V1Z" fill="#F3D6C9"/><text x="14" y="24" font-size="7" font-weight="700" fill="#C8623F" text-anchor="middle" font-family="sans-serif">PDF</text></svg>
+              <div class="ft"><b>Compte rendu pneumo précédent</b><span>9 décembre</span></div>
+              <div class="open">ouvrir <svg width="9" height="9" viewBox="0 0 12 12"><path d="M3 9 9 3M4 3h5v5" stroke="#5A4FE4" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            </div>
+            <div class="file">
+              <svg class="fi" viewBox="0 0 30 36"><path d="M2 6a2 2 0 0 1 2-2h7l3 3h12a2 2 0 0 1 2 2v18a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Z" fill="#DCE7F5" stroke="#B7CBE6"/></svg>
+              <div class="ft"><b>Comptes rendus antérieurs au dernier rdv</b><span>dossier · toutes les analyses datées (avril, septembre…)</span></div>
+              <div class="open">ouvrir <svg width="9" height="9" viewBox="0 0 12 12"><path d="M3 9 9 3M4 3h5v5" stroke="#5A4FE4" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            </div>
+          </div>
+
+          <!-- 3 -->
+          <div class="sec">
+            <div class="sh"><span class="n">3</span><span class="tt">Contrôle de l'asthme sur la période</span></div>
+            <div class="kv">
+              <p><span class="l">Réveils nocturnes: </span>présents sur 6 des 20 dernières semaines, en recrudescence depuis mars.</p>
+              <p><span class="l">Gêne à l'effort: </span>signalée à plusieurs reprises (escaliers, sport).</p>
+              <p><span class="l">Exacerbations: </span>2 épisodes marqués (janvier, mars) avec recours au secours rapproché.</p>
+              <p><span class="l">Corticoïdes oraux: </span>2 cures courtes sur la période (janvier, mars). Sur 12 mois glissants, 4 cures au total (juillet, novembre, janvier, mars).</p>
+              <p><span class="l">Recours secours (Ventoline): </span>environ 3 rachats sur la période. Consommation la plus forte entre le 16 et le 23 avril.</p>
+            </div>
+          </div>
+
+          <!-- 4 -->
+          <div class="sec">
+            <div class="sh"><span class="n">4</span><span class="tt">Suivi du traitement et observance <em></span></div>
+            <div class="kv">
+              <p><span class="l">Fond (Symbicort): </span>pris en moyenne 22 jours sur 30 d'après les déclarations et les renouvellements en pharmacie. Irrégularités surtout en semaine.</p>
+              <p><span class="l">Technique d'inhalation: </span>vérifiée le 17 avril, 5 étapes sur 6 correctes, erreur de coordination corrigée.</p>
+              <p><span class="l">Renouvellements d'ordonnance: </span>réguliers, pas de retards.</p>
+            </div>
+          </div>
+
+          <!-- 5 -->
+          <div class="sec">
+            <div class="sh"><span class="n">5</span><span class="tt">Événements depuis le dernier rendez-vous <em> chronologie</em></span></div>
+            <div class="tl">
+              <div class="ti"><span class="m">Décembre</span><span class="e">État stable, peu de gêne.</span></div>
+              <div class="ti"><span class="m">Janvier</span><span class="e">Exacerbation, cure courte de corticoïdes, arrêt du dupilumab pour réponse insuffisante.</span></div>
+              <div class="ti"><span class="m">Février</span><span class="e">Période sans événement notable.</span></div>
+              <div class="ti"><span class="m">Mars</span><span class="e">Exacerbation, seconde cure de corticoïdes, reprise des réveils nocturnes.</span></div>
+              <div class="ti"><span class="m">Avril</span><span class="e">Gêne à l'effort récurrente, épisodes liés à la mauvaise qualité de l'air.</span></div>
+              <div class="ti"><span class="m">Récurrent</span><span class="e">Déclencheurs identifiés: effort, pics de pollution et de pollen.</span></div>
+            </div>
+          </div>
+
+          <!-- 6 -->
+          <div class="sec">
+            <div class="sh"><span class="n">6</span><span class="tt">Ressenti du patient <em>extraits de conversations</em></span></div>
+            <div class="quote">« En ce moment je me réveille surtout la nuit, c'est ça qui me fatigue le plus. »</div>
+            <div class="quote">« J'ai l'impression que ma Ventoline fait moins d'effet qu'avant. »</div>
+            <div class="quote">« Dès qu'il y a un pic de pollution ou que je force un peu, je le sens tout de suite. »</div>
+            <div class="quote">« J'ai traversé une période de stress au travail, et je sens que ça joue sur mon souffle. »</div>
+            <div class="quote">« J'ai encore repris du poids et je dors mal depuis la dernière cure de cortisone, j'en ai marre. »</div>
+          </div>
+
+          <!-- 7 -->
+          <div class="sec">
+            <div class="sh"><span class="n">7</span><span class="tt">Questions à poser au pneumologue</span></div>
+            <div class="q"><span class="qm">?</span><span>Après deux biothérapies type 2 sans succès, est-ce qu'une piste agissant plus en amont (type anti-TSLP) a du sens pour mon profil ?</span></div>
+            <div class="q"><span class="qm">?</span><span>Avec 4 cures de corticoïdes sur l'année, peut-on viser une stratégie qui réduise le recours à la cortisone dans la durée ?</span></div>
+            <div class="q"><span class="qm">?</span><span>Les réveils nocturnes en recrudescence doivent-ils faire revoir mon traitement de fond ?</span></div>
+            <div class="q"><span class="qm">?</span><span>Comment mieux gérer les gênes déclenchées par l'effort et la pollution ?</span></div>
+          </div>
+
+        </div>
+
+        <div class="send">
+          <svg width="17" height="17" viewBox="0 0 18 18"><path d="M16 2 8 10M16 2l-5 14-3-6-6-3 14-5Z" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>
+          Envoyer à mon pneumologue
+        </div>
+        <div class="subact">
+          <div><svg width="14" height="14" viewBox="0 0 16 16"><path d="M8 1v10M4 7l4 4 4-4M2 14h12" stroke="#5b5870" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Télécharger le PDF</div>
+          <div><svg width="14" height="14" viewBox="0 0 16 16"><path d="M2 8.5 6.5 13 14 3.5" stroke="#5b5870" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Garder pour le rdv</div>
+        </div>
+
+      </div>
+
+      <div class="homebar"><i></i></div>
+
+    </div>
+  </div>
+  <div class="caption">Cas 6b · le compte rendu de suivi, document éditable généré par Mo. Sept sections, deux lecteurs (médecin et patient), analyses laissées en fichiers non interprétés, observance en comptage, ressenti en verbatims, TSLP uniquement en question. Mo restitue et organise, il ne conclut jamais.</div>
+</div>
+</body>
+</html>

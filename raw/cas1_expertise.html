@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cas 1 — Expertise · Mo</title>
+<style>
+  :root{
+    --peach-top:#FCEBDD;--ink:#1B1A2E;--grey:#8E8CA0;--purple:#5A4FE4;
+    --mo-border:#F0EEF6;--chip-log:#E9F6EE;--chip-log-ink:#2E9B5B;
+    --chip-flow:#EDEBFB;--chip-flow-ink:#5A4FE4;--shadow:0 8px 30px rgba(40,30,80,.08);
+    --src-perso:#EAF2FB;--src-perso-ink:#3D6FB0;--src-clin:#EFEBFB;--src-clin-ink:#6B4FC8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;}
+  a{text-decoration:none;color:inherit;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,sans-serif;
+    background:radial-gradient(120% 100% at 50% 0%,#F1EAF4 0%,#E4DEEE 60%,#DDD7E9 100%);
+    min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 16px;}
+  .wrap{display:flex;flex-direction:column;align-items:center;gap:18px;}
+  .caption{font-size:13px;color:#6a6580;max-width:360px;text-align:center;line-height:1.5;}
+
+  .phone{width:390px;height:840px;border-radius:46px;background:#0E0D14;padding:11px;
+    box-shadow:0 40px 80px rgba(30,20,60,.28),0 8px 20px rgba(30,20,60,.18);position:relative;}
+  .screen{width:100%;height:100%;border-radius:36px;overflow:hidden;background:#fff;
+    position:relative;display:flex;flex-direction:column;}
+  .island{position:absolute;top:12px;left:50%;transform:translateX(-50%);
+    width:118px;height:33px;background:#0E0D14;border-radius:20px;z-index:20;}
+
+  .status{height:52px;flex:0 0 52px;display:flex;align-items:flex-end;justify-content:space-between;
+    padding:0 26px 6px;background:var(--peach-top);font-size:14px;font-weight:600;color:var(--ink);z-index:10;}
+  .status .right{display:flex;align-items:center;gap:6px;}
+
+  .header{background:linear-gradient(180deg,var(--peach-top) 0%,#FDF3EC 100%);
+    padding:6px 18px 15px;display:flex;align-items:center;gap:12px;}
+  .chev{width:28px;height:28px;display:flex;align-items:center;justify-content:center;color:var(--ink);flex:0 0 auto;}
+  .mo-ava{width:42px;height:42px;flex:0 0 auto;}
+  .h-name{display:flex;flex-direction:column;line-height:1.15;}
+  .h-name b{font-size:17px;color:var(--ink);letter-spacing:-.2px;}
+  .h-name span{font-size:12.5px;color:var(--grey);display:flex;align-items:center;gap:5px;}
+  .dot-on{width:6px;height:6px;border-radius:50%;background:#39C06A;display:inline-block;}
+  .h-right{margin-left:auto;color:var(--ink);opacity:.7;}
+
+  .chat{flex:1 1 auto;overflow-y:auto;padding:16px 15px 10px;
+    background:linear-gradient(180deg,#FDF3EC 0%,#FFFFFF 80px);
+    display:flex;flex-direction:column;gap:11px;}
+  .chat::-webkit-scrollbar{width:0;}
+  .daytag{align-self:center;font-size:11.5px;color:var(--grey);background:#F4F2F7;
+    padding:4px 12px;border-radius:20px;margin:2px 0;}
+
+  .row{display:flex;gap:8px;align-items:flex-end;max-width:90%;}
+  .row.mo{align-self:flex-start;}
+  .row.me{align-self:flex-end;flex-direction:row-reverse;}
+  .row .mini{width:24px;height:24px;flex:0 0 auto;margin-bottom:2px;}
+  .row.me .mini,.row.cont .mini{visibility:hidden;}
+
+  .bubble{padding:10px 13px;border-radius:19px;font-size:14px;line-height:1.46;letter-spacing:-.1px;}
+  .mo .bubble{background:#fff;color:var(--ink);border:1px solid var(--mo-border);
+    border-bottom-left-radius:7px;box-shadow:var(--shadow);}
+  .me .bubble{background:var(--purple);color:#fff;border-bottom-right-radius:7px;
+    box-shadow:0 8px 20px rgba(90,79,228,.28);}
+  .bubble b{font-weight:650;}
+
+  .chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;}
+  .chip{font-size:10.5px;font-weight:600;padding:5px 9px;border-radius:13px;
+    display:inline-flex;align-items:center;gap:5px;letter-spacing:.1px;}
+  .chip.perso{background:var(--src-perso);color:var(--src-perso-ink);}
+  .chip.clin{background:var(--src-clin);color:var(--src-clin-ink);}
+  .chip.guard{background:#FBEEEA;color:#C8623F;}
+  .chip svg{display:block;}
+
+  .cta{margin-top:9px;align-self:flex-start;background:var(--purple);color:#fff;font-size:13.5px;
+    font-weight:650;padding:11px 16px;border-radius:15px;border:none;
+    box-shadow:0 10px 22px rgba(90,79,228,.30);display:flex;align-items:center;gap:8px;letter-spacing:-.1px;}
+
+  .inputbar{flex:0 0 auto;padding:9px 15px 7px;background:#fff;border-top:1px solid #F1EFF5;
+    display:flex;align-items:center;gap:10px;}
+  .plus{width:36px;height:36px;border-radius:50%;background:#F4F2F7;flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;color:var(--purple);}
+  .field{flex:1 1 auto;background:#F4F2F7;border-radius:22px;height:42px;display:flex;
+    align-items:center;padding:0 15px;color:var(--grey);font-size:14px;gap:10px;}
+  .mic{margin-left:auto;color:var(--purple);}
+  .homebar{height:20px;flex:0 0 20px;display:flex;align-items:center;justify-content:center;background:#fff;}
+  .homebar i{width:134px;height:5px;border-radius:3px;background:#1B1A2E;opacity:.85;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="phone">
+    <div class="island"></div>
+    <div class="screen">
+
+      <div class="status">
+        <span>9:41</span>
+        <span class="right">
+          <svg width="18" height="12" viewBox="0 0 18 12"><g fill="#1B1A2E"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="4" y="5" width="3" height="7" rx="1"/><rect x="8" y="2.5" width="3" height="9.5" rx="1"/><rect x="12" y="0" width="3" height="12" rx="1"/></g></svg>
+          <svg width="17" height="12" viewBox="0 0 17 12"><path d="M8.5 2.2c2.3 0 4.4.9 6 2.4l1.2-1.3A11 11 0 0 0 8.5.3 11 11 0 0 0 .8 3.3L2 4.6A8.4 8.4 0 0 1 8.5 2.2Z" fill="#1B1A2E"/><path d="M8.5 5.7c1.4 0 2.6.5 3.5 1.4l1.2-1.3a7 7 0 0 0-9.4 0l1.2 1.3A5 5 0 0 1 8.5 5.7Z" fill="#1B1A2E"/><path d="M8.5 9c.7 0 1.3.3 1.8.8L8.5 11.6 6.7 9.8c.5-.5 1.1-.8 1.8-.8Z" fill="#1B1A2E"/></svg>
+          <svg width="26" height="13" viewBox="0 0 26 13"><rect x="1" y="1" width="21" height="11" rx="3.2" stroke="#1B1A2E" stroke-opacity=".4" stroke-width="1" fill="none"/><rect x="2.6" y="2.6" width="17" height="7.8" rx="2" fill="#1B1A2E"/><rect x="23" y="4" width="1.8" height="5" rx=".9" fill="#1B1A2E" fill-opacity=".4"/></svg>
+        </span>
+      </div>
+
+      <div class="header">
+        <a href="Sommaire_prototype.html" class="chev"><svg width="10" height="17" viewBox="0 0 11 19"><path d="M9.5 1.5 2 9.5l7.5 8" stroke="#1B1A2E" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <svg class="mo-ava" viewBox="0 0 48 48"><circle cx="24" cy="24" r="24" fill="#E9E5FA"/><ellipse cx="24" cy="26" rx="15" ry="14" fill="#6D62E8"/><ellipse cx="24" cy="30" rx="10" ry="10" fill="#EFEDFB"/><circle cx="16" cy="14" r="5" fill="#6D62E8"/><circle cx="32" cy="14" r="5" fill="#6D62E8"/><circle cx="19.5" cy="24" r="2.1" fill="#1B1A2E"/><circle cx="28.5" cy="24" r="2.1" fill="#1B1A2E"/><path d="M20 29c1.4 1.4 6.6 1.4 8 0" stroke="#1B1A2E" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg>
+        <div class="h-name"><b>Mo</b><span><i class="dot-on"></i> Assistant asthme sévère · en ligne</span></div>
+        <div class="h-right"><svg width="20" height="20" viewBox="0 0 22 22"><circle cx="11" cy="11" r="9.2" stroke="#1B1A2E" stroke-width="1.6" fill="none"/><path d="M11 6.5v5l3 2" stroke="#1B1A2E" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+
+      <div class="chat">
+        <div class="daytag">Aujourd'hui</div>
+
+        <!-- John flou -->
+        <div class="row me"><span class="mini"></span><div class="bubble">je comprends pas pourquoi ma thérapie ça marche pas pour moi, mon pote il a la même et il revit</div></div>
+
+        <!-- Mo 1 -->
+        <div class="row mo">
+          <svg class="mini" viewBox="0 0 48 48"><circle cx="24" cy="24" r="24" fill="#E9E5FA"/><ellipse cx="24" cy="26" rx="15" ry="14" fill="#6D62E8"/><circle cx="16" cy="14" r="5" fill="#6D62E8"/><circle cx="32" cy="14" r="5" fill="#6D62E8"/><circle cx="19.5" cy="24" r="2" fill="#1B1A2E"/><circle cx="28.5" cy="24" r="2" fill="#1B1A2E"/><path d="M20 29c1.4 1.4 6.6 1.4 8 0" stroke="#1B1A2E" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg>
+          <div>
+            <div class="bubble">Tu parles de tes biothérapies. Je reprends ce qui est dans ton dossier pour qu'on soit précis : mépolizumab en avril, arrêté, puis dupilumab en septembre, arrêté aussi. C'est bien ces thérapies-là ?</div>
+            <div class="chips"><span class="chip perso"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M3 1.5h4.5L10 4v6.5a.9.9 0 0 1-.9.9H3a.9.9 0 0 1-.9-.9V2.4A.9.9 0 0 1 3 1.5Z" stroke="#3D6FB0" stroke-width="1" fill="none"/></svg>ton dossier · CR avril + septembre</span></div>
+          </div>
+        </div>
+
+        <!-- John -->
+        <div class="row me"><span class="mini"></span><div class="bubble">ouais exactement</div></div>
+
+        <!-- Mo 2 -->
+        <div class="row mo">
+          <svg class="mini" viewBox="0 0 48 48"><circle cx="24" cy="24" r="24" fill="#E9E5FA"/><ellipse cx="24" cy="26" rx="15" ry="14" fill="#6D62E8"/><circle cx="16" cy="14" r="5" fill="#6D62E8"/><circle cx="32" cy="14" r="5" fill="#6D62E8"/><circle cx="19.5" cy="24" r="2" fill="#1B1A2E"/><circle cx="28.5" cy="24" r="2" fill="#1B1A2E"/><path d="M20 29c1.4 1.4 6.6 1.4 8 0" stroke="#1B1A2E" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg>
+          <div>
+            <div class="bubble">Ces deux-là visent la même famille d'inflammation, le « type 2 ». Le mépolizumab bloque l'IL-5, qui commande les éosinophiles. Le dupilumab bloque l'IL-4 et l'IL-13.<br><br>En clair : ce sont deux traitements qui coupent une voie d'inflammation précise, ils ne font effet que si c'est bien cette voie-là qui pilote ton asthme. Les deux biothérapies fonctionnent d'autant mieux que les éosinophiles sont élevés.</div>
+            <div class="chips"><span class="chip clin"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M6 1.2 2 3v3c0 2.6 1.8 4.2 4 4.8 2.2-.6 4-2.2 4-4.8V3L6 1.2Z" stroke="#6B4FC8" stroke-width="1" fill="none" stroke-linejoin="round"/><path d="M4.4 6 5.6 7.2 8 4.6" stroke="#6B4FC8" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>reco GINA / ERS-ATS</span></div>
+          </div>
+        </div>
+
+        <!-- Mo 3 -->
+        <div class="row mo cont">
+          <span class="mini"></span>
+          <div>
+            <div class="bubble">Chez toi, tes éosinophiles fluctuent et restent plutôt bas : <b>310 en avril, 190 en septembre, 180 en mars</b>. En avril, à 310, tu passais le seuil : ton pneumo avait raison de tenter cette voie, c'était la piste logique à essayer.<br><br>Sauf que l'inflammation type 2 n'est pas ton vrai moteur. Concrètement, la biothérapie a bien espacé tes crises un temps, mais dès l'allègement de la cortisone elles sont revenues, c'est un effet partiel qui ne tient pas. Même chose sur la seconde.</div>
+            <div class="chips"><span class="chip perso"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M3 1.5h4.5L10 4v6.5a.9.9 0 0 1-.9.9H3a.9.9 0 0 1-.9-.9V2.4A.9.9 0 0 1 3 1.5Z" stroke="#3D6FB0" stroke-width="1" fill="none"/></svg>tes bilans · avril / sept / mars</span></div>
+          </div>
+        </div>
+
+        <!-- Mo 4 -->
+        <div class="row mo cont">
+          <span class="mini"></span>
+          <div class="bubble">Ton pote, s'il revit sous la même thérapie, est sûrement dans l'autre cas : éosinophiles élevés en permanence, un « type 2 haut ». Là, la cible tombe en plein sur son moteur. Même maladie, moteur différent, c'est pour ça que le même traitement vous fait deux effets opposés.</div>
+        </div>
+
+        <!-- John -->
+        <div class="row me"><span class="mini"></span><div class="bubble">ok… donc pour moi c'est mort ?</div></div>
+
+        <!-- Mo 5 -->
+        <div class="row mo">
+          <svg class="mini" viewBox="0 0 48 48"><circle cx="24" cy="24" r="24" fill="#E9E5FA"/><ellipse cx="24" cy="26" rx="15" ry="14" fill="#6D62E8"/><circle cx="16" cy="14" r="5" fill="#6D62E8"/><circle cx="32" cy="14" r="5" fill="#6D62E8"/><circle cx="19.5" cy="24" r="2" fill="#1B1A2E"/><circle cx="28.5" cy="24" r="2" fill="#1B1A2E"/><path d="M20 29c1.4 1.4 6.6 1.4 8 0" stroke="#1B1A2E" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg>
+          <div>
+            <div class="bubble">Non. Il existe une piste qui n'agit pas sur un seul effecteur mais plus en amont, sur un signal appelé <b>TSLP</b>. Elle a montré un effet même quand les éosinophiles sont bas comme les tiens, tement le cas où les autres ne prennent pas.<br><br>Franchement : sur un profil comme le tien elle aide moins souvent que sur un type 2 haut, mais c'est la seule qui a un sens mécanique pour toi. Je ne décide rien, c'est ton pneumo. Je te prépare la question pour ton prochain rdv, avec l'historique de tes deux échecs à l'appui.</div>
+            <a href="cas6b_compte_rendu.html" class="cta" style="color:#fff;"><svg width="15" height="15" viewBox="0 0 18 18"><path d="M4 2.5h10a1.5 1.5 0 0 1 1.5 1.5v11l-3-2H4A1.5 1.5 0 0 1 2.5 12.5V4A1.5 1.5 0 0 1 4 2.5Z" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M6 7h6M6 9.5h4" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>Ajouter à ma prépa rdv</a>
+            <div class="chips">
+              <span class="chip clin"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M6 1.2 2 3v3c0 2.6 1.8 4.2 4 4.8 2.2-.6 4-2.2 4-4.8V3L6 1.2Z" stroke="#6B4FC8" stroke-width="1" fill="none" stroke-linejoin="round"/><path d="M4.4 6 5.6 7.2 8 4.6" stroke="#6B4FC8" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>reconnu en pneumo · essais tézépélumab</span>
+              <span class="chip guard"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M6 1 1.5 3v3c0 2.8 2 4.4 4.5 5 2.5-.6 4.5-2.2 4.5-5V3L6 1Z" stroke="#C8623F" stroke-width="1.2" fill="none" stroke-linejoin="round"/></svg>Mo explique le mécanisme · il ne prescrit rien</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="inputbar">
+        <div class="plus"><svg width="17" height="17" viewBox="0 0 18 18"><path d="M9 3.5v11M3.5 9h11" stroke="#5A4FE4" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
+        <div class="field">Écris ou parle à Mo…
+          <svg class="mic" width="17" height="17" viewBox="0 0 18 18"><rect x="6" y="1.5" width="6" height="10" rx="3" stroke="#5A4FE4" stroke-width="1.6" fill="none"/><path d="M3.5 8.5a5.5 5.5 0 0 0 11 0M9 14v2.5" stroke="#5A4FE4" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+      <div class="homebar"><i></i></div>
+
+    </div>
+  </div>
+  <div class="caption">Cas 1 · Expertise sur question floue. Mo comprend l'imprécis, puise dans le dossier, explique le mécanisme sourcé, hyper-personnalise sur les chiffres de John, crédite le pneumo, reste honnête sur les limites, et prépare la question sans prescrire. Chips source perso (bleu) et clinique (violet) à chaque affirmation.</div>
+</div>
+</body>
+</html>

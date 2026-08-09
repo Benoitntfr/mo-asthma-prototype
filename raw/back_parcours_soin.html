@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parcours de soin · Mon espace asthme</title>
+<style>
+  :root{
+    --peach-top:#FCEBDD;--ink:#1B1A2E;--grey:#8E8CA0;--purple:#5A4FE4;
+    --card-border:#EFEDF4;--shadow:0 4px 18px rgba(40,30,80,.06);--care:#E0803C;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;}
+  a{text-decoration:none;color:inherit;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,sans-serif;
+    background:radial-gradient(120% 100% at 50% 0%,#F1EAF4 0%,#E4DEEE 60%,#DDD7E9 100%);
+    min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 16px;}
+  .wrap{display:flex;flex-direction:column;align-items:center;gap:18px;}
+  .caption{font-size:13px;color:#6a6580;max-width:370px;text-align:center;line-height:1.5;}
+
+  .phone{width:390px;height:840px;border-radius:46px;background:#0E0D14;padding:11px;
+    box-shadow:0 40px 80px rgba(30,20,60,.28),0 8px 20px rgba(30,20,60,.18);position:relative;}
+  .screen{width:100%;height:100%;border-radius:36px;overflow:hidden;background:#FBFAFC;
+    position:relative;display:flex;flex-direction:column;}
+  .island{position:absolute;top:12px;left:50%;transform:translateX(-50%);
+    width:118px;height:33px;background:#0E0D14;border-radius:20px;z-index:20;}
+
+  .status{height:52px;flex:0 0 52px;display:flex;align-items:flex-end;justify-content:space-between;
+    padding:0 26px 6px;background:var(--peach-top);font-size:14px;font-weight:600;color:var(--ink);z-index:10;}
+  .status .right{display:flex;align-items:center;gap:6px;}
+
+  .head{background:linear-gradient(180deg,var(--peach-top) 0%,#FDF3EC 100%);padding:4px 16px 16px;}
+  .head .bar{display:flex;align-items:center;gap:10px;}
+  .head .back{display:flex;align-items:center;gap:5px;color:var(--ink);font-size:14px;font-weight:600;}
+  .head .edit{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:12.5px;font-weight:650;
+    color:var(--purple);background:#F1EFFB;padding:7px 13px;border-radius:13px;}
+  .head .idrow{display:flex;align-items:center;gap:14px;margin-top:14px;}
+  .head .ava{width:52px;height:52px;border-radius:14px;background:#FBEEE4;flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;}
+  .head .idtxt h1{font-size:21px;color:var(--ink);letter-spacing:-.4px;font-weight:750;line-height:1.1;}
+  .head .idtxt span{font-size:13px;color:#8a7460;display:block;margin-top:3px;}
+
+  .body{flex:1 1 auto;overflow-y:auto;padding:14px 15px 16px;}
+  .body::-webkit-scrollbar{width:0;}
+
+  .seclb{font-size:11px;font-weight:750;color:var(--care);text-transform:uppercase;
+    letter-spacing:.6px;margin:4px 2px 10px;}
+  .seclb.mt{margin-top:20px;}
+
+  /* prochain rdv, carte focale */
+  .next{background:linear-gradient(135deg,#F9EDE3 0%,#FCF4EC 100%);border:1px solid #F0DAC7;
+    border-radius:18px;padding:16px 16px;box-shadow:var(--shadow);margin-bottom:12px;}
+  .next .toprow{display:flex;align-items:center;gap:8px;margin-bottom:13px;}
+  .next .pill{font-size:10.5px;font-weight:750;color:#C06A2E;background:#F7E1CF;padding:4px 10px;
+    border-radius:20px;text-transform:uppercase;letter-spacing:.4px;}
+  .next .indays{margin-left:auto;font-size:11.5px;color:#B07A4E;font-weight:650;}
+  .next .datebig{display:flex;align-items:center;gap:13px;}
+  .next .cal{width:52px;height:56px;border-radius:12px;background:#fff;border:1px solid #EFD9C6;
+    flex:0 0 auto;display:flex;flex-direction:column;overflow:hidden;text-align:center;}
+  .next .cal .m{background:#E0803C;color:#fff;font-size:10px;font-weight:750;padding:3px 0;text-transform:uppercase;letter-spacing:.5px;}
+  .next .cal .d{font-size:24px;font-weight:800;color:var(--ink);line-height:1;padding-top:6px;}
+  .next .dt b{font-size:16px;color:var(--ink);font-weight:750;letter-spacing:-.2px;display:block;}
+  .next .dt span{font-size:12.5px;color:#8a7460;display:block;margin-top:3px;}
+  .next .dt .who{display:flex;align-items:center;gap:5px;margin-top:6px;font-size:12.5px;color:#5b5870;font-weight:600;}
+
+  /* fiche de préparation, carte cliquable */
+  .prep{background:#fff;border:1.5px solid #E4DEF8;border-radius:16px;padding:15px;
+    box-shadow:0 6px 20px rgba(90,79,228,.10);margin-bottom:8px;}
+  .prep .ph{display:flex;align-items:center;gap:12px;}
+  .prep .pic{width:44px;height:44px;border-radius:12px;background:#EDEBFB;flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;}
+  .prep .pt{flex:1 1 auto;min-width:0;}
+  .prep .pt b{font-size:15px;color:var(--ink);font-weight:750;letter-spacing:-.2px;display:block;}
+  .prep .pt span{font-size:12px;color:var(--grey);display:block;margin-top:2px;line-height:1.35;}
+  .prep .go{color:var(--purple);flex:0 0 auto;}
+  .prep .feeds{margin-top:13px;padding-top:12px;border-top:1px solid #F1EFF8;}
+  .prep .feeds .ft{font-size:10px;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px;}
+  .prep .chips{display:flex;flex-wrap:wrap;gap:6px;}
+  .prep .chip{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:#4a4763;
+    background:#F7F6FC;border:1px solid #ECEAF4;padding:5px 9px;border-radius:9px;}
+  .prep .chip i{width:7px;height:7px;border-radius:50%;flex:0 0 auto;}
+  .prep .updated{font-size:10.5px;color:var(--grey);font-style:italic;margin-top:10px;display:flex;align-items:center;gap:5px;}
+
+  /* historique préparations */
+  .hprep{background:#fff;border:1px solid var(--card-border);border-radius:14px;padding:12px 14px;
+    box-shadow:var(--shadow);margin-bottom:8px;display:flex;align-items:center;gap:12px;}
+  .hprep .hi{width:38px;height:44px;flex:0 0 auto;}
+  .hprep .hc{flex:1 1 auto;min-width:0;}
+  .hprep .hc b{font-size:13.5px;color:var(--ink);font-weight:700;letter-spacing:-.1px;display:block;line-height:1.3;}
+  .hprep .hc span{font-size:11.5px;color:var(--grey);display:block;margin-top:2px;}
+  .hprep .go{color:#C9C6D6;flex:0 0 auto;}
+
+  .depose-bar{flex:0 0 auto;padding:11px 15px 8px;background:#fff;border-top:1px solid #F1EFF5;}
+  .depose-btn{background:var(--purple);color:#fff;font-size:14.5px;font-weight:700;padding:14px;
+    border-radius:16px;text-align:center;display:flex;align-items:center;justify-content:center;gap:9px;
+    box-shadow:0 12px 26px rgba(90,79,228,.30);letter-spacing:-.1px;}
+  .homebar{height:20px;flex:0 0 20px;display:flex;align-items:center;justify-content:center;background:#fff;}
+  .homebar i{width:134px;height:5px;border-radius:3px;background:#1B1A2E;opacity:.85;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="phone">
+    <div class="island"></div>
+    <div class="screen">
+
+      <div class="status">
+        <span>9:41</span>
+        <span class="right">
+          <svg width="18" height="12" viewBox="0 0 18 12"><g fill="#1B1A2E"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="4" y="5" width="3" height="7" rx="1"/><rect x="8" y="2.5" width="3" height="9.5" rx="1"/><rect x="12" y="0" width="3" height="12" rx="1"/></g></svg>
+          <svg width="17" height="12" viewBox="0 0 17 12"><path d="M8.5 2.2c2.3 0 4.4.9 6 2.4l1.2-1.3A11 11 0 0 0 8.5.3 11 11 0 0 0 .8 3.3L2 4.6A8.4 8.4 0 0 1 8.5 2.2Z" fill="#1B1A2E"/><path d="M8.5 5.7c1.4 0 2.6.5 3.5 1.4l1.2-1.3a7 7 0 0 0-9.4 0l1.2 1.3A5 5 0 0 1 8.5 5.7Z" fill="#1B1A2E"/><path d="M8.5 9c.7 0 1.3.3 1.8.8L8.5 11.6 6.7 9.8c.5-.5 1.1-.8 1.8-.8Z" fill="#1B1A2E"/></svg>
+          <svg width="26" height="13" viewBox="0 0 26 13"><rect x="1" y="1" width="21" height="11" rx="3.2" stroke="#1B1A2E" stroke-opacity=".4" stroke-width="1" fill="none"/><rect x="2.6" y="2.6" width="17" height="7.8" rx="2" fill="#1B1A2E"/><rect x="23" y="4" width="1.8" height="5" rx=".9" fill="#1B1A2E" fill-opacity=".4"/></svg>
+        </span>
+      </div>
+
+      <div class="head">
+        <div class="bar">
+          <a href="back_accueil_espace_asthme.html" class="back"><svg width="9" height="15" viewBox="0 0 10 16"><path d="M8.5 1 2 8l6.5 7" stroke="#1B1A2E" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Mon espace asthme</a>
+          <div class="edit"><svg width="12" height="12" viewBox="0 0 14 14"><path d="M2 10.5 9.2 3.3a1.4 1.4 0 0 1 2 2L4 12.5l-2.6.5.6-2.5Z" stroke="#5A4FE4" stroke-width="1.2" fill="none" stroke-linejoin="round"/></svg>Modifier</div>
+        </div>
+        <div class="idrow">
+          <div class="ava"><svg width="26" height="26" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="16" rx="2.5" stroke="#E0803C" stroke-width="1.7" fill="none"/><path d="M4 9.5h16M8 3v4M16 3v4M8.5 14l2.2 2.2L15 12" stroke="#E0803C" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="idtxt"><h1>Parcours de soin</h1><span>Tes rendez-vous et leurs préparations</span></div>
+        </div>
+      </div>
+
+      <div class="body">
+
+        <!-- 1 · PROCHAIN RENDEZ-VOUS -->
+        <div class="seclb">Prochain rendez-vous</div>
+        <div class="next">
+          <div class="toprow">
+            <span class="pill">Pneumologue</span>
+            <span class="indays">dans 3 semaines</span>
+          </div>
+          <div class="datebig">
+            <div class="cal"><div class="m">sept.</div><div class="d">18</div></div>
+            <div class="dt">
+              <b>Jeudi 18 septembre</b>
+              <span>14h30 · consultation de suivi</span>
+              <div class="who"><svg width="13" height="13" viewBox="0 0 14 14"><circle cx="7" cy="5" r="2.5" stroke="#5b5870" stroke-width="1.2" fill="none"/><path d="M3 11.5c0-2 1.8-3.2 4-3.2s4 1.2 4 3.2" stroke="#5b5870" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg>Dr Blanc, pneumologue</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 · FICHE DE PRÉPARATION -->
+        <div class="seclb mt">Ma fiche de préparation</div>
+        <div class="prep">
+          <div class="ph">
+            <div class="pic"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke="#5A4FE4" stroke-width="1.6" fill="none" stroke-linejoin="round"/><path d="M13 3v4h4M9 12h6M9 15h6M9 18h3" stroke="#5A4FE4" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+            <div class="pt"><b>Préparation du 18 septembre</b><span>Actualisée en continu par Mo d'ici ton rendez-vous</span></div>
+            <div class="go"><svg width="9" height="15" viewBox="0 0 9 15"><path d="M1.5 1l6 6.5-6 6.5" stroke="#5A4FE4" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
+          <div class="feeds">
+            <div class="ft">Ce qu'elle rassemble</div>
+            <div class="chips">
+              <span class="chip"><i style="background:#34B36B"></i>Synthèse d'observance</span>
+              <span class="chip"><i style="background:#C87BC0"></i>Ressenti du mois</span>
+              <span class="chip"><i style="background:#C8623F"></i>Derniers examens</span>
+              <span class="chip"><i style="background:#5A4FE4"></i>Tes questions</span>
+            </div>
+            <div class="updated"><svg width="11" height="11" viewBox="0 0 12 12"><path d="M1.5 6a4.5 4.5 0 0 1 7.5-3.4M10.5 6a4.5 4.5 0 0 1-7.5 3.4" stroke="#8E8CA0" stroke-width="1.1" fill="none" stroke-linecap="round"/><path d="M9 1v2H7M3 11V9h2" stroke="#8E8CA0" stroke-width="1.1" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Dernière mise à jour hier · 4 notes ajoutées ce mois</div>
+          </div>
+        </div>
+
+        <!-- 3 · HISTORIQUE DES PRÉPARATIONS -->
+        <div class="seclb mt">Historique des préparations</div>
+
+        <a href="cas6b_compte_rendu.html" class="hprep">
+          <svg class="hi" viewBox="0 0 30 36"><rect x="1" y="1" width="28" height="34" rx="4" fill="#EDEBFB" stroke="#CFC9F3"/><path d="M20 1l9 9h-7a2 2 0 0 1-2-2V1Z" fill="#DAD4F7"/><path d="M7 17h16M7 21h16M7 25h11" stroke="#8B80F0" stroke-width="1.3" stroke-linecap="round"/></svg>
+          <div class="hc"><b>Préparation du 14 mai</b><span>Rendez-vous où le Tezspire a été prescrit</span></div>
+          <div class="go"><svg width="9" height="15" viewBox="0 0 9 15"><path d="M1.5 1l6 6.5-6 6.5" stroke="#C9C6D6" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </a>
+
+        <div class="hprep">
+          <svg class="hi" viewBox="0 0 30 36"><rect x="1" y="1" width="28" height="34" rx="4" fill="#EDEBFB" stroke="#CFC9F3"/><path d="M20 1l9 9h-7a2 2 0 0 1-2-2V1Z" fill="#DAD4F7"/><path d="M7 17h16M7 21h16M7 25h11" stroke="#8B80F0" stroke-width="1.3" stroke-linecap="round"/></svg>
+          <div class="hc"><b>Préparation du 9 décembre</b><span>Consultation de suivi</span></div>
+          <div class="go"><svg width="9" height="15" viewBox="0 0 9 15"><path d="M1.5 1l6 6.5-6 6.5" stroke="#C9C6D6" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+
+      </div>
+
+      <div class="depose-bar">
+        <div class="depose-btn"><svg width="16" height="16" viewBox="0 0 18 18"><path d="M9 4v10M4 9h10" stroke="#fff" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg>Préparer mon prochain rendez-vous</div>
+      </div>
+      <div class="homebar"><i></i></div>
+
+    </div>
+  </div>
+  <div class="caption">Espace Parcours de soin. Le point de convergence de l'écosystème. En tête, le prochain rendez-vous. Puis la fiche de préparation actualisée, une seule carte cliquable qui agrège observance, ressenti, examens et questions, sans les déballer en vrac. En dessous, l'historique des préparations passées, distinct des comptes rendus du pneumologue qui vivent dans Clinique. En bas, l'action reine, préparer le prochain rendez-vous.</div>
+</div>
+</body>
+</html>

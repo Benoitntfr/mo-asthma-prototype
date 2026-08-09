@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cas 0 — Onboarding · Mo</title>
+<link rel="stylesheet" href="app.css">
+<style>
+:root{--peach-top:#FCEBDD;--ink:#1B1A2E;--grey:#8E8CA0;--purple:#5A4FE4;
+    --mo-border:#F0EEF6;--chip-log:#E9F6EE;--chip-log-ink:#2E9B5B;
+    --chip-flow:#EDEBFB;--chip-flow-ink:#5A4FE4;--shadow:0 8px 30px rgba(40,30,80,.08);}
+a{text-decoration:none;color:inherit;}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter",system-ui,sans-serif;
+    background:radial-gradient(120% 100% at 50% 0%,#F1EAF4 0%,#E4DEEE 60%,#DDD7E9 100%);
+    min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 16px;}
+.wrap{display:flex;flex-direction:column;align-items:center;gap:18px;}
+.caption{font-size:13px;color:#6a6580;max-width:360px;text-align:center;line-height:1.5;}
+.screen{width:100%;height:100%;border-radius:36px;overflow:hidden;background:#fff;
+    position:relative;display:flex;flex-direction:column;}
+.island{position:absolute;top:12px;left:50%;transform:translateX(-50%);
+    width:118px;height:33px;background:#0E0D14;border-radius:20px;z-index:20;}
+.status{height:52px;flex:0 0 52px;display:flex;align-items:flex-end;justify-content:space-between;
+    padding:0 26px 6px;background:var(--peach-top);font-size:14px;font-weight:600;color:var(--ink);z-index:10;}
+.header{background:linear-gradient(180deg,var(--peach-top) 0%,#FDF3EC 100%);
+    padding:6px 18px 15px;display:flex;align-items:center;gap:12px;}
+.chev{width:28px;height:28px;display:flex;align-items:center;justify-content:center;color:var(--ink);flex:0 0 auto;}
+.mo-ava{width:42px;height:42px;flex:0 0 auto;}
+.h-name{display:flex;flex-direction:column;line-height:1.15;}
+.h-name b{font-size:17px;color:var(--ink);letter-spacing:-.2px;}
+.h-name span{font-size:12.5px;color:var(--grey);display:flex;align-items:center;gap:5px;}
+.dot-on{width:6px;height:6px;border-radius:50%;background:#39C06A;display:inline-block;}
+.h-right{margin-left:auto;color:var(--ink);opacity:.7;}
+.chat{flex:1 1 auto;overflow-y:auto;padding:16px 15px 10px;
+    background:linear-gradient(180deg,#FDF3EC 0%,#FFFFFF 80px);
+    display:flex;flex-direction:column;gap:11px;}
+.chat::-webkit-scrollbar{width:0;}
+.daytag{align-self:center;font-size:11.5px;color:var(--grey);background:#F4F2F7;
+    padding:4px 12px;border-radius:20px;margin:2px 0;}
+.row{display:flex;gap:8px;align-items:flex-end;max-width:90%;}
+.row.mo{align-self:flex-start;}
+.row.me{align-self:flex-end;flex-direction:row-reverse;}
+.row .mini{width:24px;height:24px;flex:0 0 auto;margin-bottom:2px;}
+.row.me .mini,.row.cont .mini{visibility:hidden;}
+.bubble{padding:10px 13px;border-radius:19px;font-size:14px;line-height:1.46;letter-spacing:-.1px;}
+.mo .bubble{background:#fff;color:var(--ink);border:1px solid var(--mo-border);
+    border-bottom-left-radius:7px;box-shadow:var(--shadow);}
+.me .bubble{background:var(--purple);color:#fff;border-bottom-right-radius:7px;
+    box-shadow:0 8px 20px rgba(90,79,228,.28);}
+.bubble b{font-weight:650;}
+.lnk{color:var(--purple);font-weight:650;text-decoration:underline;text-underline-offset:2px;cursor:pointer;}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;}
+.chip{font-size:10.5px;font-weight:600;padding:5px 9px;border-radius:13px;
+    display:inline-flex;align-items:center;gap:5px;letter-spacing:.1px;}
+.chip.flow{background:var(--chip-flow);color:var(--chip-flow-ink);}
+.chip.log{background:var(--chip-log);color:var(--chip-log-ink);}
+.chip.guard{background:#FBEEEA;color:#C8623F;}
+.chip svg{display:block;}
+/* document déposé (côté patient) */ .docmsg{align-self:flex-end;background:#fff;border:1px solid var(--mo-border);
+    border-radius:16px;padding:9px 12px;display:flex;align-items:center;gap:10px;
+    box-shadow:var(--shadow);max-width:78%;}
+.docmsg .ico{width:34px;height:40px;flex:0 0 auto;}
+.docmsg .d-t{display:flex;flex-direction:column;line-height:1.25;}
+.docmsg .d-t b{font-size:13px;color:var(--ink);}
+.docmsg .d-t span{font-size:11px;color:var(--grey);}
+.inputbar{flex:0 0 auto;padding:9px 15px 7px;background:#fff;border-top:1px solid #F1EFF5;
+    display:flex;align-items:center;gap:10px;}
+.plus{width:36px;height:36px;border-radius:50%;background:#F4F2F7;flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;color:var(--purple);}
+.field{flex:1 1 auto;background:#F4F2F7;border-radius:22px;height:42px;display:flex;
+    align-items:center;padding:0 15px;color:var(--grey);font-size:14px;gap:10px;}
+.mic{margin-left:auto;color:var(--purple);}
+.homebar{height:20px;flex:0 0 20px;display:flex;align-items:center;justify-content:center;background:#fff;}
+.homebar i{width:134px;height:5px;border-radius:3px;background:#1B1A2E;opacity:.85;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="phone">
+    <div class="island"></div>
+    <div class="screen">
+
+      <div class="status">
+        <span>9:41</span>
+        <span class="right">
+          <svg width="18" height="12" viewBox="0 0 18 12"><g fill="#1B1A2E"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="4" y="5" width="3" height="7" rx="1"/><rect x="8" y="2.5" width="3" height="9.5" rx="1"/><rect x="12" y="0" width="3" height="12" rx="1"/></g></svg>
+          <svg width="17" height="12" viewBox="0 0 17 12"><path d="M8.5 2.2c2.3 0 4.4.9 6 2.4l1.2-1.3A11 11 0 0 0 8.5.3 11 11 0 0 0 .8 3.3L2 4.6A8.4 8.4 0 0 1 8.5 2.2Z" fill="#1B1A2E"/><path d="M8.5 5.7c1.4 0 2.6.5 3.5 1.4l1.2-1.3a7 7 0 0 0-9.4 0l1.2 1.3A5 5 0 0 1 8.5 5.7Z" fill="#1B1A2E"/><path d="M8.5 9c.7 0 1.3.3 1.8.8L8.5 11.6 6.7 9.8c.5-.5 1.1-.8 1.8-.8Z" fill="#1B1A2E"/></svg>
+          <svg width="26" height="13" viewBox="0 0 26 13"><rect x="1" y="1" width="21" height="11" rx="3.2" stroke="#1B1A2E" stroke-opacity=".4" stroke-width="1" fill="none"/><rect x="2.6" y="2.6" width="17" height="7.8" rx="2" fill="#1B1A2E"/><rect x="23" y="4" width="1.8" height="5" rx=".9" fill="#1B1A2E" fill-opacity=".4"/></svg>
+        </span>
+      </div>
+
+      <div class="header">
+        <a href="index.html" class="chev"><svg width="10" height="17" viewBox="0 0 11 19"><path d="M9.5 1.5 2 9.5l7.5 8" stroke="#1B1A2E" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <svg class="mo-ava" viewBox="0 0 48 48"><circle cx="24" cy="24" r="24" fill="#E9E5FA"/><ellipse cx="24" cy="26" rx="15" ry="14" fill="#6D62E8"/><ellipse cx="24" cy="30" rx="10" ry="10" fill="#EFEDFB"/><circle cx="16" cy="14" r="5" fill="#6D62E8"/><circle cx="32" cy="14" r="5" fill="#6D62E8"/><circle cx="19.5" cy="24" r="2.1" fill="#1B1A2E"/><circle cx="28.5" cy="24" r="2.1" fill="#1B1A2E"/><path d="M20 29c1.4 1.4 6.6 1.4 8 0" stroke="#1B1A2E" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg>
+        <div class="h-name"><b>Mo</b><span><i class="dot-on"></i> Assistant asthme sévère · en ligne</span></div>
+        <div class="h-right"><svg width="20" height="20" viewBox="0 0 22 22"><circle cx="11" cy="11" r="9.2" stroke="#1B1A2E" stroke-width="1.6" fill="none"/><path d="M11 6.5v5l3 2" stroke="#1B1A2E" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+
+      <div class="chat">
+        <div class="daytag">Aujourd'hui</div>
+
+        <!-- 1 · synthèse d'installation + confirmation -->
+        <div class="row mo">
+          <svg class="mini" viewBox="0 0 48 48"><circle cx="24" cy="24" r="24" fill="#E9E5FA"/><ellipse cx="24" cy="26" rx="15" ry="14" fill="#6D62E8"/><circle cx="16" cy="14" r="5" fill="#6D62E8"/><circle cx="32" cy="14" r="5" fill="#6D62E8"/><circle cx="19.5" cy="24" r="2" fill="#1B1A2E"/><circle cx="28.5" cy="24" r="2" fill="#1B1A2E"/><path d="M20 29c1.4 1.4 6.6 1.4 8 0" stroke="#1B1A2E" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg>
+          <div class="bubble">Salut John, moi c'est Mo. Tu as renseigné quelques infos en installant l'app, je te fais une synthèse rapide pour qu'on parte du bon pied.<br><br>34 ans, <b>asthme sévère</b> depuis une dizaine d'années, suivi par le Dr Blanc. En ce moment, Symbicort matin et soir en traitement de fond, Ventoline en secours. Tu as déjà tenté deux biothérapies en injection, arrêtées toutes les deux, et aucune n'est en cours aujourd'hui.<br><br>C'est bien ça, ou il y a quelque chose à corriger ?</div>
+        </div>
+
+        <!-- 2 · John confirme + précise -->
+        <div class="row me"><span class="mini"></span><div class="bubble">ouais c'est ça. la deuxième piqûre je l'ai arrêtée en janvier par contre, ça fait un moment que j'ai plus rien</div></div>
+
+        <!-- 3 · Mo corrige -->
+        <div class="row mo">
+          <svg class="mini" viewBox="0 0 48 48"><circle cx="24" cy="24" r="24" fill="#E9E5FA"/><ellipse cx="24" cy="26" rx="15" ry="14" fill="#6D62E8"/><circle cx="16" cy="14" r="5" fill="#6D62E8"/><circle cx="32" cy="14" r="5" fill="#6D62E8"/><circle cx="19.5" cy="24" r="2" fill="#1B1A2E"/><circle cx="28.5" cy="24" r="2" fill="#1B1A2E"/><path d="M20 29c1.4 1.4 6.6 1.4 8 0" stroke="#1B1A2E" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg>
+          <div>
+            <div class="bubble">Noté, dernière biothérapie arrêtée en janvier, rien depuis. Je corrige dans ton profil.</div>
+            <div class="chips"><span class="chip log"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5" stroke="#2E9B5B" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>profil mis à jour · sans biothérapie depuis janvier</span></div>
+          </div>
+        </div>
+
+        <!-- 4 · cadre : compagnon, pas médecin, RGPD/HDS -->
+        <div class="row mo cont">
+          <span class="mini"></span>
+          <div>
+            <div class="bubble">Un mot sur moi avant d'aller plus loin. Je suis un compagnon pensé pour l'asthme sévère, conçu avec des pneumologues et des associations de patients. Je ne suis pas médecin et je ne remplace pas le tien. Nos échanges restent en Europe, chiffrés, et ne servent jamais à entraîner quoi que ce soit. Mon rôle, c'est d'être ton assistant entre les rendez-vous et de garder en mémoire ce que tu vis au quotidien. Tu peux découvrir ton espace <a href="back_accueil_espace_asthme.html" class="lnk">ICI</a>.</div>
+            <div class="chips">
+              <span class="chip guard"><svg width="11" height="11" viewBox="0 0 12 12"><path d="M6 1 1.5 3v3c0 2.8 2 4.4 4.5 5 2.5-.6 4.5-2.2 4.5-5V3L6 1Z" stroke="#C8623F" stroke-width="1.3" fill="none" stroke-linejoin="round"/></svg>Conçu avec des pneumologues · ne remplace pas ton médecin</span>
+              <span class="chip flow"><svg width="11" height="11" viewBox="0 0 12 12"><rect x="2" y="5" width="8" height="6" rx="1.4" stroke="#5A4FE4" stroke-width="1.3" fill="none"/><path d="M4 5V3.6a2 2 0 0 1 4 0V5" stroke="#5A4FE4" stroke-width="1.3" fill="none"/></svg>hébergé en Europe (HDS) · aucun entraînement</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 · collecte : ressenti + dépôt CR -->
+        <div class="row mo cont">
+          <span class="mini"></span>
+          <div class="bubble">Pour bien démarrer, deux choses. Comment tu te sens en ce moment, tes gênes, les effets des traitements. Et si tu as des comptes rendus ou examens sous la main, tu peux les déposer, je les archive datés, tu les retrouves <a href="back_clinique.html" class="lnk">ICI</a>.</div>
+        </div>
+
+        <!-- 6 · John ressenti -->
+        <div class="row me"><span class="mini"></span><div class="bubble">la nuit j'ai pas mal de gêne en ce moment, et assez fatigué aussi</div></div>
+
+        <!-- 7 · Mo note -->
+        <div class="row mo">
+          <svg class="mini" viewBox="0 0 48 48"><circle cx="24" cy="24" r="24" fill="#E9E5FA"/><ellipse cx="24" cy="26" rx="15" ry="14" fill="#6D62E8"/><circle cx="16" cy="14" r="5" fill="#6D62E8"/><circle cx="32" cy="14" r="5" fill="#6D62E8"/><circle cx="19.5" cy="24" r="2" fill="#1B1A2E"/><circle cx="28.5" cy="24" r="2" fill="#1B1A2E"/><path d="M20 29c1.4 1.4 6.6 1.4 8 0" stroke="#1B1A2E" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg>
+          <div>
+            <div class="bubble">Ok, je note les deux.</div>
+            <div class="chips">
+              <span class="chip log"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5" stroke="#2E9B5B" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>gênes nocturnes</span>
+              <span class="chip log">fatigue</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8 · John dépose le CR récent -->
+        <div class="docmsg">
+          <svg class="ico" viewBox="0 0 34 40"><rect x="1" y="1" width="32" height="38" rx="4" fill="#FBEDE7" stroke="#E7C3B4"/><path d="M23 1l10 10h-8a2 2 0 0 1-2-2V1Z" fill="#F3D6C9"/><text x="16" y="27" font-size="8" font-weight="700" fill="#C8623F" text-anchor="middle" font-family="sans-serif">PDF</text></svg>
+          <div class="d-t"><b>Compte rendu pneumo</b><span>12 mars</span></div>
+        </div>
+
+        <!-- 9 · Mo reçu + classe -->
+        <div class="row mo">
+          <svg class="mini" viewBox="0 0 48 48"><circle cx="24" cy="24" r="24" fill="#E9E5FA"/><ellipse cx="24" cy="26" rx="15" ry="14" fill="#6D62E8"/><circle cx="16" cy="14" r="5" fill="#6D62E8"/><circle cx="32" cy="14" r="5" fill="#6D62E8"/><circle cx="19.5" cy="24" r="2" fill="#1B1A2E"/><circle cx="28.5" cy="24" r="2" fill="#1B1A2E"/><path d="M20 29c1.4 1.4 6.6 1.4 8 0" stroke="#1B1A2E" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg>
+          <div>
+            <div class="bubble">Reçu. Je lis ton compte rendu du 12 mars et je le classe à sa date dans ton dossier.</div>
+            <div class="chips"><span class="chip log"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5" stroke="#2E9B5B" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>document lu · classé au 12/03 · ajouté à ton dossier</span></div>
+          </div>
+        </div>
+
+        <!-- 10 · Mo restitue les valeurs du CR + demande l'historique -->
+        <div class="row mo cont">
+          <span class="mini"></span>
+          <div class="bubble">Voilà ce que ton pneumologue a noté ce jour-là. Spirométrie, <b>VEMS à 62%</b>. Contrôle de l'asthme, <b>ACT à 14</b>. Bilan inflammatoire, <b>éosinophiles à 180</b>, <b>FeNO à 22</b>. Rhinite allergique associée. Il a acté un asthme sévère non contrôlé et reconduit ton traitement de fond.<br><br>Tu as des comptes rendus plus anciens ? Je les ajoute à la suite, pour avoir l'historique complet et pas juste la dernière visite.</div>
+        </div>
+
+        <!-- 11 · John dépose 2 CR antérieurs -->
+        <div class="row me"><span class="mini"></span><div class="bubble">j'ai deux CR de l'an dernier</div></div>
+        <div class="docmsg">
+          <svg class="ico" viewBox="0 0 34 40"><rect x="1" y="1" width="32" height="38" rx="4" fill="#FBEDE7" stroke="#E7C3B4"/><path d="M23 1l10 10h-8a2 2 0 0 1-2-2V1Z" fill="#F3D6C9"/><text x="16" y="27" font-size="8" font-weight="700" fill="#C8623F" text-anchor="middle" font-family="sans-serif">PDF</text></svg>
+          <div class="d-t"><b>CR pneumo · avril</b><span>+ CR septembre</span></div>
+        </div>
+
+        <!-- 12 · Mo classe -->
+        <div class="row mo">
+          <svg class="mini" viewBox="0 0 48 48"><circle cx="24" cy="24" r="24" fill="#E9E5FA"/><ellipse cx="24" cy="26" rx="15" ry="14" fill="#6D62E8"/><circle cx="16" cy="14" r="5" fill="#6D62E8"/><circle cx="32" cy="14" r="5" fill="#6D62E8"/><circle cx="19.5" cy="24" r="2" fill="#1B1A2E"/><circle cx="28.5" cy="24" r="2" fill="#1B1A2E"/><path d="M20 29c1.4 1.4 6.6 1.4 8 0" stroke="#1B1A2E" stroke-width="1.7" fill="none" stroke-linecap="round"/></svg>
+          <div>
+            <div class="bubble">Je les lis et je les classe à leur date, avant celui de mars.</div>
+            <div class="chips"><span class="chip log"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5" stroke="#2E9B5B" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>2 documents lus · classés au 04 et 09 · dossier mis à jour</span></div>
+          </div>
+        </div>
+
+        <!-- 13 · Mo historique + clôture -->
+        <div class="row mo cont">
+          <span class="mini"></span>
+          <div>
+            <div class="bubble">Ce que les pneumos ont noté au fil de l'année. En avril, éosinophiles à 310, mise sous une première biothérapie ciblée, arrêtée en juillet. En septembre, éosinophiles à 190, passage à une seconde, arrêtée en janvier. En mars, éosinophiles à 180. Deux biothérapies essayées, aucune qui tienne dans la durée.<br><br>J'ai aussi relevé tes passages sous cortisone en comprimés, <b>quatre cures sur les douze derniers mois</b>, chacune pour une exacerbation. Je les garde dans ton suivi.<br><br>Ton dossier de base est en place. On avancera à partir de là, à ton rythme.</div>
+            <div class="chips">
+              <span class="chip log">éos avril 310</span><span class="chip log">sept 190</span><span class="chip log">mars 180</span>
+              <span class="chip log">FeNO 22</span><span class="chip log">ACT 14</span><span class="chip log">VEMS 62%</span>
+              <span class="chip log">rhinite</span><span class="chip log">2 biothérapies arrêtées</span><span class="chip log">4 cures de cortisone / 12 mois</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="inputbar">
+        <div class="plus"><svg width="17" height="17" viewBox="0 0 18 18"><path d="M9 3.5v11M3.5 9h11" stroke="#5A4FE4" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
+        <div class="field">Écris ou parle à Mo…
+          <svg class="mic" width="17" height="17" viewBox="0 0 18 18"><rect x="6" y="1.5" width="6" height="10" rx="3" stroke="#5A4FE4" stroke-width="1.6" fill="none"/><path d="M3.5 8.5a5.5 5.5 0 0 0 11 0M9 14v2.5" stroke="#5A4FE4" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+      <div class="homebar"><i></i></div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>
